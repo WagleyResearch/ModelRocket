@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <math.h>
+#include "Projectile.h"
 #include "Rocket.h"
 #include "World.h"
 
@@ -16,7 +17,7 @@ using namespace std;
 
 //This Function calculates how far an object will travel when thrust stops
 
-double coast(Rocket r, World b, double V /*Velocity*/,
+double coast(Projectile r, World b, double V /*Velocity*/,
         double Vt /*Direction in Degrees */, double h /*height*/) {
     double m = r.getMass();
     double cx = r.getDragX();
@@ -62,9 +63,9 @@ double coast(Rocket r, World b, double V /*Velocity*/,
  */
 int main(int argc, char** argv) {
     //Rocket (mass, drag x, drag y, area x, area y, thrust 500, burn time length);
-    Rocket testRocket(50, .5, .5, .13, .13, 500, 10);
+    Projectile testProjectile(50, .5, .5, .13, .13);
     World testWorld;
-    printf("Meters traveled: %f\n", coast(testRocket, testWorld, 60, 10, 0));
+    printf("Meters traveled: %f\n", coast(testProjectile, testWorld, 60, 10, 0));
     return 0;
 }
 

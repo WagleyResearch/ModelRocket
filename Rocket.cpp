@@ -9,33 +9,9 @@
 
 Rocket::Rocket(double m /*Mass*/, double cx /*Horizontal Coefficient of friction*/, 
         double cy /*Vertical Coefficient of friction*/, double ax /*Horizontal cross-sectional area*/, 
-        double ay /*Vertical Cross-sectional area*/, double t /*Thrust*/, double b /*Burn time*/) {
-    mass = m;
-    coefx = cx;
-    coefy = cy;
-    areax = ax;
+        double ay /*Vertical Cross-sectional area*/, double t /*Thrust*/, double b /*Burn time*/) : super(m, cx, cy, ax, ay){
     thrust = t;
     burn = b;
-}
-
-double Rocket::getMass() {
-    return mass;
-}
-
-double Rocket::getDragX() {
-    return coefx;
-}
-
-double Rocket::getDragY() {
-    return coefy;
-}
-
-double Rocket::getAreaX() {
-    return areax;
-}
-
-double Rocket::getAreaY() {
-    return areay;
 }
 
 double Rocket::getThrust() {
