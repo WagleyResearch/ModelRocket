@@ -23,28 +23,30 @@ double coast(Rocket r, World b, double V /*Velocity*/,
     double d = b.getDensity();
     double g = b.getGravity();
     double Vx = V * cos(Vt * PI / 180);
-    double Vy = V * sin(Vt * PI / 180) - m * g;
-    double  Fdx, Fdy, ax, ay, Vx2, Vy2;
+    double Vy = V * sin(Vt * PI / 180);
+    double Fdx, Fdy, ax, ay, Vx2, Vy2, Dx, Dy;
     double distx = 0;
     double disty = h;
     double t = 0;
     double tstep = .01;
 
     while (disty >= 0) {
-        V = sqrt((Vx * Vx) + (Vy * Vy));
-        Vt = atan(Vy / Vx) * 180 / PI;
-        Fdx = (c * d * A * V * V) * cos((Vt + 180) * PI / 180);
-        Fdy = (c * d * A * V * V) * sin((Vt + 180) * PI / 180);
-        ax = Fdx / m;
-        ay = Fdy / m;
-        Vy2 = Vy + ay * tstep;
-        Vx2 = Vx + ax * tstep;
-        disty += (Vy2 + Vy) / 2 * tstep;
-        distx += (Vx2 + Vx) / 2 * tstep;
-        Vy = Vy2 - m * g;
-        Vx = Vx2;
-
+        /* V = sqrt((Vx * Vx) + (Vy * Vy));
+         Vt = atan(Vy / Vx) * 180 / PI; 
+         Fdx = (c * d * A * V * V) * cos((Vt + 180) * PI / 180);
+         Fdy = (c * d * A * V * V) * sin((Vt + 180) * PI / 180) - m * g; */
+        Dx = (c * d * A * Vx * Vx) / 2;
+        Dy = (c * d * A * Vy * Vy) / 2;
+        ax = Dx / m;
+        ay = ((Dy / m) + 9.8);
+        Vy2 = Vy - ay * tstep;
+        Vx2 = Vx - ax * tstep;
+        disty += Vy * tstep;
+        distx += Vx * tstep;
+        printf("T: %f\n Vx %f\n Vy %f\n V %f\n", t, Vx, Vy, sqrt((Vx * Vx) + (Vy * Vy)));
         t += tstep;
+        Vx = Vx2;
+        Vy = Vy2;
 
 
     }
