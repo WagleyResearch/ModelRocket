@@ -11,6 +11,7 @@
 class World {
 public:
     World(double d, double g);
+    World();
     double getDensity();
     double getGravity();
 private:

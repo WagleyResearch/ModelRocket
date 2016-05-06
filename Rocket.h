@@ -10,15 +10,17 @@
 
 class Rocket {
 public:
-    Rocket(double m, double c, double a, double t, double b);
+    Rocket(double m, double cx, double cy, double ax, double ay, double t, double b);
     double getMass();
-    double getDrag();
-    double getArea();
+    double getDragX();
+    double getDragY();
+    double getAreaX();
+    double getAreaY();
     double getThrust();
     double getBurn();
 
 private:
-    double mass, coef, area, thrust, burn;
+    double mass, coefx, coefy, areax, areay, thrust, burn;
 };
 
 #endif	/* ROCKET_H */
