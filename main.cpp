@@ -55,48 +55,44 @@ double coast(Rocket r, World b) {
     double A = r.getArea();
     double d = b.getDensity();
     double g = b.getGravity();
-    double t = 0;
-    double tInc = .01;
-    double vs = 10;
-    double va = 13;
-    double vx = vs * cos(va);
-    double vy = vs * sin(va);
-    double fnety, fnetx, fnets, fneta, vs2, va2, vx2, vy2, distx, rs, ra, rx, ry;
-    distx = 0;
+    double Vx = 100 * cos(45 * PI / 180);
+    double Vy = 100 * sin(45 * PI / 180) - m * g;
+    double V, Vt, Fdx, Fdy, ax, ay, Vx2, Vy2;
+    double distx = 0;
     double disty = 400;
-    double a = rs / m;
-    while (true) {
-        fnety = vy - m * g;
-        fnetx = vx;
-        fneta = atan(fnety / fnetx) * 180 / PI;
-        fnets = sqrt((fnetx * fnetx) + (fnety * fnety));
-        va2 = atan(vy / vx) * 180 / PI;
-        vs2 = sqrt((vx * vx) + (vy * vy));
-        rs = c * d * vs2 * vs2 / 2;
-        ra = va2 + 180;
-        rx = rs * cos(ra * PI / 180);
-        ry = rs * sin(ra * PI / 180);
-        vx2 = vx - rx;
-        vy2 = vy - ry - (m * g);
-        disty += ((vy2*vy2) - (vy*vy)) / 2*(ry / m);
-        distx += ((vx2*vx2) - (vx*vx)) / 2*(rx / m);
-        a = rs / m;
-        if (disty < 0) {
+    double t = 0;
+    double tstep = .01;
+    while(true){
+        V = sqrt((Vx*Vx) + (Vy*Vy));
+        Vt = atan(Vy / Vx) * 180 / PI;
+        Fdx = (c * d * A * V * V) * cos((Vt + 180) * PI / 180);
+        Fdy = (c * d * A * V * V) * sin((Vt + 180) * PI / 180);
+        ax = Fdx / m;
+        ay = Fdy / m;
+        Vy2 = Vy + ay * tstep;
+        Vx2 = Vx + ax * tstep;
+        disty += (Vy2 + Vy) / 2 * tstep;
+        distx += (Vx2 + Vx) / 2 * tstep;
+        printf(" time %f\n Vx %f\n Vx2 %f\n", t, Vx, Vx2 );
+        Vy = Vy2 - m * g;
+        Vx = Vx2;
+        
+        if (disty < 0){
             break;
         }
-        vx = vx2;
-        vy = vy2;
-        t = t + tInc;
-
+        t += tstep;
+        
+        
     }
     return distx;
+ 
 }
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    Rocket testRocket(1000, .01, 4, 500, 10);
+    Rocket testRocket(1, .05, 4, 500, 10);
     World testWorld(1.223, 9.8);
     printf("Meters traveled: %f\n", coast(testRocket, testWorld));
     return 0;
