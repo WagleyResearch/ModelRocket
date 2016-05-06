@@ -27,7 +27,7 @@ double coast(Rocket r, World b) {
     double disty = 400;
     double t = 0;
     double tstep = .01;
-    while (true) {
+    while (disty <= 0) {
         V = sqrt((Vx * Vx) + (Vy * Vy));
         Vt = atan(Vy / Vx) * 180 / PI;
         Fdx = (c * d * A * V * V) * cos((Vt + 180) * PI / 180);
@@ -42,9 +42,6 @@ double coast(Rocket r, World b) {
         Vy = Vy2 - m * g;
         Vx = Vx2;
 
-        if (disty < 0) {
-            break;
-        }
         t += tstep;
 
 
