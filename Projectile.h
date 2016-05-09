@@ -17,6 +17,7 @@ public:
     double getDragY();
     double getAreaX();
     double getAreaY();
+    void setMass(double mass);
 
 private:
     double mass, coefx, coefy, areax, areay;

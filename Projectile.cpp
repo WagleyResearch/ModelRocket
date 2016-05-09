@@ -35,5 +35,8 @@ double Projectile::getAreaX() {
 double Projectile::getAreaY() {
     return areay;
 }
+void Projectile::setMass(double mass){
+    this->mass = mass;
+}
 
 

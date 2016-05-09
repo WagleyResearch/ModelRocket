@@ -9,9 +9,10 @@
 
 Rocket::Rocket(double m /*Mass*/, double cx /*Horizontal Coefficient of friction*/, 
         double cy /*Vertical Coefficient of friction*/, double ax /*Horizontal cross-sectional area*/, 
-        double ay /*Vertical Cross-sectional area*/, double t /*Thrust*/, double b /*Burn time*/) : super(m, cx, cy, ax, ay){
+        double ay /*Vertical Cross-sectional area*/, double t /*Thrust*/, double b /*Burn time*/, double f) : super(m, cx, cy, ax, ay){
     thrust = t;
     burn = b;
+    flow = f;
 }
 
 double Rocket::getThrust() {
@@ -21,6 +22,11 @@ double Rocket::getThrust() {
 double Rocket::getBurn() {
     return burn;
 }
+
+double Rocket::getFlow(){
+    return flow;
+}
+
 
 
 
