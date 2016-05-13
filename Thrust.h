@@ -11,6 +11,7 @@
  * Created on May 10, 2016, 4:00 PM
  */
 #include "Projectile.h"
+#include <stdio.h>
 #include "Rocket.h"
 #include "World.h"
 #include <math.h>

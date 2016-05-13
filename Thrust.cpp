@@ -6,9 +6,11 @@
 
 #include "Thrust.h"
 
+//Calculates how far a projectile will travel without thrust
+
 double * coast(Projectile r, World b, double V /*Velocity*/,
         double Vt /*Direction in Degrees */, double h /*height*/) {
-                                                                 
+
     static double outCoast[3];
     double m = r.getMass();
     double cx = r.getDragX();
@@ -23,7 +25,7 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
     double distx = 0;
     double disty = h;
     double t = 0;
-    double tstep = .000001;
+    double tstep = .01;
 
     while (disty >= 0) {
         Vt = atan(Vy / Vx) * 180 / PI;
@@ -43,7 +45,6 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
         Vx = Vx2;
         Vy = Vy2;
 
-
     }
     outCoast[0] = distx;
     outCoast[1] = disty;
@@ -51,6 +52,9 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
 
     return outCoast;
 }
+
+//Calculates how far a rocket will travel under thrust
+
 double * thrust(Rocket r, World b, double lt) {
     double outThrust[3];
     double *outC;
@@ -61,15 +65,18 @@ double * thrust(Rocket r, World b, double lt) {
     double Ay = r.getAreaY();
     double d = b.getDensity();
     double g = b.getGravity();
-    double Tx = r.getThrust() * cos(lt * PI / 180);
-    double Ty = r.getThrust() * sin(lt * PI / 180);
-    double Vx, Vy = 0;
+    double T = r.getThrust();
+    double Tx = T * cos(lt * PI / 180);
+    double Ty = T * sin(lt * PI / 180);
+    double Vx = 0;
+    double Vy = 0;
     double Fdx, Fdy, ax, ay, Vx2, Vy2, Dx, Dy;
-    double distx, disty = 0;
+    double distx = 0;
+    double disty = 0;
     double t = 0;
-    double tstep = .000001;
+    double tstep = .01;
     while (t <= r.getBurn()) {
-        Vx = Vx + (Tx / m) * tstep;
+        Vx = Vx + ((Tx / m) * tstep);
         Vy = Vy + ((Ty + 9.8) / m) * tstep;
         Dx = (cx * d * Ax * Vx * Vx) / 2;
         Dy = (cy * d * Ay * Vy * Vy) / 2;
@@ -80,9 +87,10 @@ double * thrust(Rocket r, World b, double lt) {
         Vx = Vx2;
         Vy = Vy2;
         t = t + tstep;
+
         r.setMass(m + r.getFlow() / tstep);
     }
-    outC = coast(r, b, sqrt((Vx * Vx) + (Vy * Vy)), atan((Vy / Vx) * 180 / PI), disty);
+    outC = coast(r, b, sqrt((Vx * Vx) + (Vy * Vy)), atan((Vy / Vx)) * 180 / PI, disty);
     outThrust[0] = distx + outC[0];
     outThrust[1] = disty + outC[1];
     outThrust[2] = t + outC[1];
