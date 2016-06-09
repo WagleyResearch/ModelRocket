@@ -4,21 +4,21 @@
  *
  * Created on May 5, 2016, 11:10 AM
  */
+#include "Projectile.h"
 
 #ifndef ROCKET_H
 #define	ROCKET_H
 
-class Rocket {
+class Rocket : public Projectile{
 public:
-    Rocket(double m, double c, double a, double t, double b);
-    double getMass();
-    double getDrag();
-    double getArea();
+    typedef Projectile super;
+    Rocket(double m, double cx, double cy, double ax, double ay, double t, double b, double f);
     double getThrust();
     double getBurn();
+    double getFlow();
 
 private:
-    double mass, coef, area, thrust, burn;
+    double thrust, burn, flow;
 };
 
 #endif	/* ROCKET_H */

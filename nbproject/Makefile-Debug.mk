@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Projectile.o \
 	${OBJECTDIR}/Rocket.o \
+	${OBJECTDIR}/Thrust.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/main.o
 
@@ -64,10 +66,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/modelrocket2: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/modelrocket2 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Projectile.o: Projectile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Projectile.o Projectile.cpp
+
 ${OBJECTDIR}/Rocket.o: Rocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Rocket.o Rocket.cpp
+
+${OBJECTDIR}/Thrust.o: Thrust.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Thrust.o Thrust.cpp
 
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}

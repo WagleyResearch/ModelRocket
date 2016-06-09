@@ -7,28 +7,26 @@
 
 #include "Rocket.h"
 
-Rocket::Rocket(double m, double c, double a, double t, double b) {
-    mass = m;
-    coef = c;
-    area = a;
+Rocket::Rocket(double m /*Mass*/, double cx /*Horizontal Coefficient of friction*/, 
+        double cy /*Vertical Coefficient of friction*/, double ax /*Horizontal cross-sectional area*/, 
+        double ay /*Vertical Cross-sectional area*/, double t /*Thrust*/, double b /*Burn time*/, double f) : super(m, cx, cy, ax, ay){
     thrust = t;
     burn = b;
+    flow = f;
 }
-double Rocket::getMass(){
-    return mass;
-}
-double Rocket::getDrag(){
-    return coef;
-}
-double Rocket::getArea(){
-    return area;
-}
-double Rocket::getThrust(){
+
+double Rocket::getThrust() {
     return thrust;
 }
-double Rocket::getBurn(){
+
+double Rocket::getBurn() {
     return burn;
 }
+
+double Rocket::getFlow(){
+    return flow;
+}
+
 
 
 
