@@ -9,8 +9,8 @@
 //Calculates how far a projectile will travel without thrust
 
 double * coast(Projectile r, World b, double V /*Velocity*/,
-        double Vt /*Direction in Degrees */, double h /*height*/) {
-
+        double Vt /*Direction in Degrees */) {
+    FILE *data = fopen("data.dat", "a");
     static double outCoast[3];
     double m = r.getMass();
     double cx = r.getDragX();
@@ -22,12 +22,10 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
     double Vx = V * cos(Vt * PI / 180);
     double Vy = V * sin(Vt * PI / 180);
     double Fdx, Fdy, ax, ay, Vx2, Vy2, Dx, Dy;
-    double distx = 0;
-    double disty = h;
     double t = 0;
     double tstep = .01;
 
-    while (disty >= 0) {
+    while (r.getDistY() >= 0) {
         Vt = atan(Vy / Vx) * 180 / PI;
         Dx = (cx * d * Ax * Vx * Vx) / 2;
         Dy = (cy * d * Ay * Vy * Vy) / 2;
@@ -39,15 +37,18 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
         }
         Vy2 = Vy + ay * tstep;
         Vx2 = Vx + ax * tstep;
-        disty += Vy * tstep;
-        distx += Vx * tstep;
+        r.setDistY(r.getDistY() + (Vy * tstep));
+        r.setDistX(r.getDistX() + (Vx * tstep));
+        fprintf(data, "%f %f\n", r.getDistX(), r.getDistY());
         t += tstep;
         Vx = Vx2;
         Vy = Vy2;
 
     }
-    outCoast[0] = distx;
-    outCoast[1] = disty;
+    fflush(data);
+    fclose(data);
+    outCoast[0] = r.getDistX();
+    outCoast[1] = r.getDistY();
     outCoast[2] = t;
 
     return outCoast;
@@ -56,6 +57,9 @@ double * coast(Projectile r, World b, double V /*Velocity*/,
 //Calculates how far a rocket will travel under thrust
 
 double * thrust(Rocket r, World b, double lt) {
+    FILE *data = fopen("data.dat", "w");
+    
+    int pointCount = 0;
     double outThrust[3];
     double *outC;
     double m = r.getMass();
@@ -82,18 +86,31 @@ double * thrust(Rocket r, World b, double lt) {
         Dy = (cy * d * Ay * Vy * Vy) / 2;
         Vx2 = Vx - (Dx / m) * tstep;
         Vy2 = Vy - (Dx / m) * tstep;
-        distx += Vx2 * tstep;
-        disty += Vy2 * tstep;
+        r.setDistX(r.getDistX() + (Vx2 * tstep));
+        r.setDistY(r.getDistY() + (Vx2 * tstep));
         Vx = Vx2;
         Vy = Vy2;
         t = t + tstep;
 
-        r.setMass(m + r.getFlow() / tstep);
+        //r.setMass(m + r.getFlow() / tstep);
+        fprintf(data, "%f %f\n", r.getDistX(), r.getDistY());
+
+
+        pointCount++;
     }
-    outC = coast(r, b, sqrt((Vx * Vx) + (Vy * Vy)), atan((Vy / Vx)) * 180 / PI, disty);
-    outThrust[0] = distx + outC[0];
-    outThrust[1] = disty + outC[1];
+    fflush(data);
+    fclose(data);
+    outC = coast(r, b, sqrt((Vx * Vx) + (Vy * Vy)), atan((Vy / Vx)) * 180 / PI);
+    outThrust[0] = r.getDistX();
+    outThrust[1] = r.getDistY();
     outThrust[2] = t + outC[1];
 
     return outThrust;
+
+
+}
+void plot(){
+    system("/usr/local/bin/gnuplot -persist -e \"set terminal x11; plot 'data.dat' smooth bezier \" " );
+    printf("To End Program Hit Enter\n");
+    std::cin.ignore();
 }
