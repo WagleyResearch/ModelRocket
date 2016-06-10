@@ -92,7 +92,7 @@ double * thrust(Rocket r, World b, double lt) {
         Vy = Vy2;
         t = t + tstep;
 
-        //r.setMass(m + r.getFlow() / tstep);
+        r.setMass(m + r.getFlow() / tstep);
         fprintf(data, "%f %f\n", r.getDistX(), r.getDistY());
 
 
@@ -103,12 +103,15 @@ double * thrust(Rocket r, World b, double lt) {
     outC = coast(r, b, sqrt((Vx * Vx) + (Vy * Vy)), atan((Vy / Vx)) * 180 / PI);
     outThrust[0] = r.getDistX();
     outThrust[1] = r.getDistY();
-    outThrust[2] = t + outC[1];
+    outThrust[2] = t + outC[2];
 
     return outThrust;
 
 
 }
+
+//Plots the travel in gnuplot. 
+
 void plot(){
     system("/usr/local/bin/gnuplot -persist -e \"set terminal x11; plot 'data.dat' smooth bezier \" " );
     printf("To End Program Hit Enter\n");

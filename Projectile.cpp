@@ -62,26 +62,3 @@ void Projectile::setDistX(double dist) {
 void Projectile::setMass(double mass) {
     this->mass = mass;
 }
-/*
-void Projectile::openPath() {
-    FILE *pipe = popen("/usr/local/bin/gnuplot --persist", "w");
-    fprintf(pipe, "\n");
-    fprintf(pipe, "set autoscale;\n");
-    fprintf(pipe, "set multiplot;\n");
-}
-
-void Projectile::graphPath() {
-    fprintf(pipe, "plot '-' w p ls %i\n", pointCount);
-    fprintf(pipe, "%f %f\n", distx, disty);
-    fprintf(pipe, "e;\n");
-
-    pointCount++;
-
-}
-
-void Projectile::closePath() {
-    fflush(pipe);
-    std::cin.ignore();
-    fclose(pipe);
-}
-*/
