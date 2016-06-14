@@ -112,7 +112,7 @@ double * thrust(Rocket r, World b, double lt) {
 //Plots the travel in gnuplot. 
 
 void plot(){
-    system("/usr/local/bin/gnuplot -persist -e \"set terminal x11; plot 'data.dat' smooth bezier \"  && rm data.dat" );
+    system("/usr/local/bin/gnuplot -persist -e \"set terminal x11; set size square; plot 'data.dat' smooth bezier \"  && rm data.dat" );
     printf("To End Program Hit Enter\n");
     std::cin.ignore();
 }
